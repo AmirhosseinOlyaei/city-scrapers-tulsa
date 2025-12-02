@@ -96,7 +96,7 @@ spider_configs = [
         "class_name": "TulokBeyondApologySpider",
         "name": "tulok_beyond_apology",
         "agency": "Beyond Apology Commission",
-        "board_id": "1113",  # Needs verification
+        "board_id": "1103",  # Verified from website
     },
     {
         "class_name": "TulokGilcreaseSpider",
@@ -120,7 +120,7 @@ spider_configs = [
         "class_name": "TulokDevAuthoritySpider",
         "name": "tulok_dev_authority",
         "agency": "Tulsa Development Authority",
-        "board_id": "900",  # Needs verification
+        "board_id": "889",  # Verified from website
     },
     {
         "class_name": "TulokEthicsSpider",
@@ -132,7 +132,7 @@ spider_configs = [
         "class_name": "TulokParksRecSpider",
         "name": "tulok_parks_rec",
         "agency": "Tulsa Parks and Recreation Board",
-        "board_id": "889",  # Needs verification
+        "board_id": "877",  # Verified from website
     },
     {
         "class_name": "TulokStadiumTrustSpider",
