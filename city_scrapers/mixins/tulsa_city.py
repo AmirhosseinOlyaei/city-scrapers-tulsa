@@ -284,9 +284,15 @@ class TulsaCityMixin(CityScrapersSpider, metaclass=TulsaCityMixinMeta):
         """
         Determine meeting status from meeting type text.
 
+        API Meeting_Type values observed:
+        - "Canceled" -> CANCELLED
+        - "Reschedule" -> CANCELLED
+        - "Tentative" -> TENTATIVE
+        - "Regular", "Special", "Annual", "Emergency" -> check date for PASSED/TENTATIVE
+
         Args:
             item: Meeting item
-            text (str): Meeting type text from API
+            text (str): Meeting_Type from API
 
         Returns:
             str: Status constant
@@ -296,7 +302,8 @@ class TulsaCityMixin(CityScrapersSpider, metaclass=TulsaCityMixinMeta):
 
         text_lower = text.lower()
 
-        if "cancel" in text_lower:
+        # Check for cancellation indicators
+        if any(word in text_lower for word in ["cancel", "reschedule", "postpone"]):
             return CANCELLED
         elif "tentative" in text_lower:
             return TENTATIVE
