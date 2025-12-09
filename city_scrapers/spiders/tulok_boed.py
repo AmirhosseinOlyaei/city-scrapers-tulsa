@@ -21,7 +21,7 @@ class TulokBoedSpider(CityScrapersSpider):
         Parse meeting items from the Diligent Community API.
         Returns JSON array of meeting objects with full details.
         """
-        data = json.loads(response.text)
+        data = response.json()
         for item in data:
             meeting = Meeting(
                 title=self._parse_title(item),
