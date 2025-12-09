@@ -126,3 +126,4 @@ travis/*.json
 
 # output files
 *.csv
+output.json
