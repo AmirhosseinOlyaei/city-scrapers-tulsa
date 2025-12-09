@@ -51,7 +51,10 @@ class TulokBoedSpider(CityScrapersSpider):
         """
         dt_str = item.get("MeetingDateTime")
         if dt_str:
-            return datetime.strptime(dt_str, "%Y-%m-%d %H:%M")
+            try:
+                return datetime.strptime(dt_str, "%Y-%m-%d %H:%M")
+            except ValueError:
+                return None
         return None
 
     def _parse_location(self, item):
