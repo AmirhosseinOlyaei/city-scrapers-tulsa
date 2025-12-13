@@ -1,4 +1,3 @@
-import json
 from datetime import datetime
 
 from city_scrapers_core.constants import BOARD
