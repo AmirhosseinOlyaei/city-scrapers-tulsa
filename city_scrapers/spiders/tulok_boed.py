@@ -1,3 +1,4 @@
+import re
 from datetime import datetime
 
 from city_scrapers_core.constants import BOARD
@@ -55,10 +56,15 @@ class TulokBoedSpider(CityScrapersSpider):
     def _parse_location(self, item):
         """Parse location from MeetingLocation field."""
         location_str = item.get("MeetingLocation", "")
-        return {
-            "name": location_str.split(",")[0].strip(),
-            "address": location_str,
-        }
+        # Split on street address pattern (starts with number)
+        match = re.search(r",\s*(\d+\s+.+)$", location_str)
+        if match:
+            name = location_str[: match.start()].strip()
+            address = match.group(1)
+        else:
+            name = ""
+            address = location_str
+        return {"name": name, "address": address}
 
     def _parse_links(self, item):
         """Generate agenda link using meeting ID."""
