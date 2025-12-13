@@ -1,20 +1,27 @@
 import re
+import scrapy
 from datetime import datetime
 
 from city_scrapers_core.constants import BOARD
 from city_scrapers_core.items import Meeting
 from city_scrapers_core.spiders import CityScrapersSpider
+from dateutil.relativedelta import relativedelta
 
 
 class TulokBoedSpider(CityScrapersSpider):
     name = "tulok_boed"
     agency = "Tulsa Public Schools Board of Education"
     timezone = "America/Chicago"
-    start_urls = [
-        "https://tulsaschools.diligent.community/Services/MeetingsService.svc/meetings?from=2024-12-01&to=9999-12-31"  # noqa
-    ]
+    start_url = "https://tulsaschools.diligent.community/Services/MeetingsService.svc/meetings?from={start_year}&to=9999-12-31"  # noqa
     agenda_url = "https://tulsaschools.diligent.community/Portal/MeetingInformation.aspx?Org=Cal&Id={}"  # noqa
     custom_settings = {"ROBOTSTXT_OBEY": False}
+
+    def start_requests(self):
+        """Generate initial requests with formatted start year."""
+        current_date = datetime.now().date()
+        last_year = current_date - relativedelta(years=2)
+        url = self.start_url.format(start_year=last_year)
+        yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
         """
