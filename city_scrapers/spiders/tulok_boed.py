@@ -23,7 +23,7 @@ class TulokBoedSpider(CityScrapersSpider):
         data = response.json()
         for item in data:
             meeting = Meeting(
-                title=self._parse_title(item),
+                title=item.get("MeetingTypeName") or "Board Meeting",
                 description="",
                 classification=BOARD,
                 start=self._parse_start(item),
@@ -39,11 +39,6 @@ class TulokBoedSpider(CityScrapersSpider):
             meeting["id"] = self._get_id(meeting)
 
             yield meeting
-
-    def _parse_title(self, item):
-        """Parse meeting title from CleanName or Name field."""
-        title = item.get("CleanName") or item.get("Name") or "Board Meeting"
-        return title.split("(")[0].strip()
 
     def _parse_start(self, item):
         """Parse start datetime from MeetingDateTime field.
